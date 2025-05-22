@@ -1,4 +1,4 @@
 package libreriaPersonale;
 //TODO
-public class GestoreCatalogo {
+public class GestoreCatalogo implements GestoreCatalogoIF{
 }

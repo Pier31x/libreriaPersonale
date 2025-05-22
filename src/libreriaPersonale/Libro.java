@@ -3,7 +3,7 @@ package libreriaPersonale;
 import java.util.Objects;
 
 public class Libro {
-    enum Stato {DA_LEGGERE, IN_LETTURA, LETTO, IN_PRESTITO, VENDUTO};
+    enum Stato {DA_LEGGERE, IN_LETTURA, LETTO, IN_PRESTITO};
 
     private String isbn;
     private String autore;
@@ -62,6 +62,8 @@ public class Libro {
         return valutazione;
     }
 
+    public String getStato() { return stato.toString();}
+
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
@@ -82,4 +84,5 @@ public class Libro {
         this.valutazione = valutazione;
     }
 
+    public void setStato(Stato stato) { this.stato = stato;}
 }
