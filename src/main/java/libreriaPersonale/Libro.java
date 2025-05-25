@@ -62,7 +62,7 @@ public class Libro {
         return valutazione;
     }
 
-    public String getStato() { return stato.toString();}
+    public Stato getStato() { return stato;}
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;

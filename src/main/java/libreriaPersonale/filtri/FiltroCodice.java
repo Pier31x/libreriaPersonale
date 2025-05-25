@@ -2,7 +2,7 @@ package libreriaPersonale.filtri;
 
 import libreriaPersonale.Libro;
 
-//TODO
+
 public class FiltroCodice extends FiltroDecorator {
     String codice;
     public FiltroCodice(Filtro filtro, String c) {

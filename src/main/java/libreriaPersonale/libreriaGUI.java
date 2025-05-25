@@ -7,7 +7,6 @@ public class libreriaGUI {
     private JButton btnFiltra;
     private JButton btnAdd;
     private JComboBox cbOrder;
-    private JTextField tfOrder;
     private JTextField tfCodice;
     private JTextField tfStatoLettura;
     private JTextField tfValutazione;
@@ -15,9 +14,12 @@ public class libreriaGUI {
     private JTextField tfAutore;
     private JTextField tfTitolo;
     private JPanel mainPanel;
+    private JLabel labelOrdina;
 
     public libreriaGUI() {}
 
+    //TODO
+    //RIMUOVI QUESTO MAIN
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Libreria");
