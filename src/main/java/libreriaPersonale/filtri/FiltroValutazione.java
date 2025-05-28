@@ -1,6 +1,6 @@
 package libreriaPersonale.filtri;
 
-import libreriaPersonale.Libro;
+import libreriaPersonale.modello.Libro;
 
 
 public class FiltroValutazione extends FiltroDecorator {

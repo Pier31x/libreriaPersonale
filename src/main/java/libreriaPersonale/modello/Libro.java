@@ -1,9 +1,8 @@
-package libreriaPersonale;
+package libreriaPersonale.modello;
 
 import java.util.Objects;
 
 public class Libro {
-    enum Stato {DA_LEGGERE, IN_LETTURA, LETTO, IN_PRESTITO};
 
     private String isbn;
     private String autore;
@@ -27,16 +26,16 @@ public class Libro {
     @Override
     public String toString() {
         return  "isbn='" + isbn + '\'' +
-                ", autore='" + autore + '\'' +
                 ", titolo='" + titolo + '\'' +
+                ", autore='" + autore + '\'' +
                 ", genere='" + genere + '\'' +
                 ", valutazione=" + valutazione;
     }
 
-    public Libro(String isbn, String autore, String titolo, String genere, int valutazione, Stato stato) {
+    public Libro(String isbn, String titolo, String autore, String genere, int valutazione, Stato stato) {
         this.isbn = isbn;
-        this.autore = autore;
         this.titolo = titolo;
+        this.autore = autore;
         this.genere = genere;
         this.valutazione = valutazione;
         this.stato = stato;
@@ -82,6 +81,14 @@ public class Libro {
 
     public void setValutazione(int valutazione) {
         this.valutazione = valutazione;
+    }
+
+    public void setLibro(Libro libro) {
+        this.titolo = libro.getTitolo();
+        this.autore = libro.getAutore();
+        this.genere = libro.getGenere();
+        this.valutazione = libro.getValutazione();
+        this.stato = libro.getStato();
     }
 
     public void setStato(Stato stato) { this.stato = stato;}

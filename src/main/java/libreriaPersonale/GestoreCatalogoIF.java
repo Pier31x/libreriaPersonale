@@ -1,10 +1,12 @@
 package libreriaPersonale;
 
+import libreriaPersonale.comparatori.EnumComparatori;
 import libreriaPersonale.filtri.Filtro;
+import libreriaPersonale.modello.Libro;
 
 import java.util.List;
 
-//TODO
+
 public interface GestoreCatalogoIF {
     public boolean aggiungiLibro(Libro l);
     public boolean modificaLibro(Libro l);

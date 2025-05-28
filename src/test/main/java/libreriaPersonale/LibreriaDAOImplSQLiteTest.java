@@ -1,5 +1,8 @@
 package libreriaPersonale;
 
+import libreriaPersonale.database.LibreriaDAOImplSQLite;
+import libreriaPersonale.modello.Libro;
+import libreriaPersonale.modello.Stato;
 import org.junit.jupiter.api.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,7 +33,7 @@ class LibreriaDAOImplSQLiteTest {
 
     @Test
     void testAggiungiCaricaLibro() {
-        Libro libro = new Libro("111", "Test Book", "Author", "Genre", 4, Libro.Stato.IN_LETTURA);
+        Libro libro = new Libro("111", "Test Book", "Author", "Genre", 4, Stato.IN_LETTURA);
         dao.aggiungiLibro(libro);
 
         List<Libro> libri = dao.caricaLibri();
@@ -40,10 +43,10 @@ class LibreriaDAOImplSQLiteTest {
 
     @Test
     void testModificaLibro() {
-        Libro libro = new Libro("222", "Original", "Author", "Genre", 3, Libro.Stato.IN_LETTURA);
+        Libro libro = new Libro("222", "Original", "Author", "Genre", 3, Stato.IN_LETTURA);
         dao.aggiungiLibro(libro);
 
-        Libro modificato = new Libro("222", "Modificato", "Author", "Genre", 5, Libro.Stato.LETTO);
+        Libro modificato = new Libro("222", "Modificato", "Author", "Genre", 5, Stato.LETTO);
         dao.modificaLibro(modificato);
 
         List<Libro> libri = dao.caricaLibri();
@@ -54,7 +57,7 @@ class LibreriaDAOImplSQLiteTest {
 
     @Test
     void testRimuoviLibro() {
-        dao.aggiungiLibro(new Libro("333", "To Remove", "Author", "Genre", 2, Libro.Stato.IN_PRESTITO));
+        dao.aggiungiLibro(new Libro("333", "To Remove", "Author", "Genre", 2, Stato.IN_PRESTITO));
         dao.rimuoviLibro("333");
 
         List<Libro> libri = dao.caricaLibri();
@@ -64,8 +67,8 @@ class LibreriaDAOImplSQLiteTest {
     @Test
     void testSalvaCatalogo() {
         List<Libro> catalogo = List.of(
-                new Libro("444", "Libro1", "Autore1", "Genere1", 3, Libro.Stato.LETTO),
-                new Libro("555", "Libro2", "Autore2", "Genere2", 5, Libro.Stato.IN_LETTURA)
+                new Libro("444", "Libro1", "Autore1", "Genere1", 3, Stato.LETTO),
+                new Libro("555", "Libro2", "Autore2", "Genere2", 5, Stato.IN_LETTURA)
         );
 
         dao.salvaCatalogo(catalogo);

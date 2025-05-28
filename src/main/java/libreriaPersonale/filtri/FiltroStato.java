@@ -1,11 +1,12 @@
 package libreriaPersonale.filtri;
 
-import libreriaPersonale.Libro;
+import libreriaPersonale.modello.Libro;
+import libreriaPersonale.modello.Stato;
 
 
 public class FiltroStato extends FiltroDecorator {
-    String stato;
-    public FiltroStato(Filtro filtro, String s) {
+    Stato stato;
+    public FiltroStato(Filtro filtro, Stato s) {
         super(filtro);
         stato = s;
     }

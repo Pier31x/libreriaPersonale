@@ -1,6 +1,6 @@
 package libreriaPersonale.filtri;
 
-import libreriaPersonale.Libro;
+import libreriaPersonale.modello.Libro;
 
 
 public class FiltroCodice extends FiltroDecorator {
@@ -12,6 +12,6 @@ public class FiltroCodice extends FiltroDecorator {
 
     @Override
     public boolean applicaFiltro(Libro libro) {
-        return filtro.applicaFiltro(libro) && codice.equals(libro.getIsbn());
+        return !libro.getIsbn().isEmpty() && filtro.applicaFiltro(libro) && libro.getIsbn().equals(codice);
     }
 }

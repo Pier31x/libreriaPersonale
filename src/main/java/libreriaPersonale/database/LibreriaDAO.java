@@ -1,4 +1,6 @@
-package libreriaPersonale;
+package libreriaPersonale.database;
+
+import libreriaPersonale.modello.Libro;
 
 import java.util.List;
 

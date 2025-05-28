@@ -1,4 +1,7 @@
-package libreriaPersonale;
+package libreriaPersonale.database;
+
+import libreriaPersonale.modello.Libro;
+import libreriaPersonale.modello.Stato;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -107,7 +110,7 @@ public class LibreriaDAOImplSQLite implements LibreriaDAO {
                         rs.getString("autore"),
                         rs.getString("genere"),
                         rs.getInt("valutazione"),
-                        Libro.Stato.valueOf(rs.getString("statoLettura"))  // FIXATO
+                        Stato.valueOf(rs.getString("statoLettura"))  // FIXATO
                 );
                 libri.add(libro);
             }

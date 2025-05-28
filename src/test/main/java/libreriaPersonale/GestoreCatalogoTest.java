@@ -1,13 +1,16 @@
 package libreriaPersonale;
 
+import libreriaPersonale.comparatori.EnumComparatori;
+import libreriaPersonale.database.LibreriaDAO;
 import libreriaPersonale.filtri.Filtro;
+import libreriaPersonale.modello.Libro;
+import libreriaPersonale.modello.Stato;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,7 +34,7 @@ class GestoreCatalogoTest {
         @Override
         public void rimuoviLibro(String ISBN) {
             for(Libro libro : libri) {
-                if (libro.getIsbn().equals(ISBN)) {
+                if (getIsbn().equals(ISBN)) {
                     libri.remove(libro);
                     return;
                 }
@@ -41,7 +44,7 @@ class GestoreCatalogoTest {
         @Override
         public void modificaLibro(Libro libro) {
             for (int i = 0; i < libri.size(); i++) {
-                if (libri.get(i).getIsbn().equals(libro.getIsbn())) {
+                if (libri.get(i).getIsbn().equals(getIsbn())) {
                     libri.set(i, libro);
                     return;
                 }
@@ -63,9 +66,9 @@ class GestoreCatalogoTest {
     void setUp() {
         testLibreriaDAO = new TestLibreriaDAO();
 
-        libro1 = new Libro("978-0321765723", "J.R.R. Tolkien", "The Lord of the Rings", "Fantasy", 5, Libro.Stato.LETTO);
-        libro2 = new Libro("978-0743273565", "F. Scott Fitzgerald", "The Great Gatsby", "Classic", 4, Libro.Stato.IN_LETTURA);
-        libro3 = new Libro("978-0061120084", "Harper Lee", "To Kill a Mockingbird", "Classic", 5, Libro.Stato.DA_LEGGERE);
+        libro1 = new Libro("978-0321765723", "J.R.R. Tolkien", "The Lord of the Rings", "Fantasy", 5, Stato.LETTO);
+        libro2 = new Libro("978-0743273565", "F. Scott Fitzgerald", "The Great Gatsby", "Classic", 4, Stato.IN_LETTURA);
+        libro3 = new Libro("978-0061120084", "Harper Lee", "To Kill a Mockingbird", "Classic", 5, Stato.DA_LEGGERE);
 
         testLibreriaDAO.salvaCatalogo(new ArrayList<>(Arrays.asList(libro1, libro2)));
 
@@ -83,7 +86,7 @@ class GestoreCatalogoTest {
 
     @Test
     void aggiungiLibro_libroEsistente_nonAggiunge() {
-        Libro libroDuplicato = new Libro("978-0321765723", "Another Title", "Another Author", "Sci-Fi", 3, Libro.Stato.IN_LETTURA);
+        Libro libroDuplicato = new Libro("978-0321765723", "Another Title", "Another Author", "Sci-Fi", 3, Stato.IN_LETTURA);
         boolean aggiunto = gestoreCatalogo.aggiungiLibro(libroDuplicato);
         assertFalse(aggiunto);
         List<Libro> catalogo = testLibreriaDAO.caricaLibri();
@@ -92,7 +95,7 @@ class GestoreCatalogoTest {
 
     @Test
     void modificaLibro_libroEsistente_modificaConSuccesso() {
-        Libro libroModificato = new Libro("978-0321765723", "The Lord of the Rings - Revised", "J.R.R. Tolkien", "Fantasy", 5, Libro.Stato.IN_PRESTITO);
+        Libro libroModificato = new Libro("978-0321765723", "The Lord of the Rings - Revised", "J.R.R. Tolkien", "Fantasy", 5, Stato.IN_PRESTITO);
         boolean modificato = gestoreCatalogo.modificaLibro(libroModificato);
         assertTrue(modificato);
         List<Libro> catalogo = testLibreriaDAO.caricaLibri();
@@ -102,7 +105,7 @@ class GestoreCatalogoTest {
 
     @Test
     void modificaLibro_libroNonEsistente_nonModifica() {
-        Libro libroNonEsistente = new Libro("978-1234567890", "Non Existing Book", "Unknown", "Mystery", 2, Libro.Stato.LETTO);
+        Libro libroNonEsistente = new Libro("978-1234567890", "Non Existing Book", "Unknown", "Mystery", 2, Stato.LETTO);
         boolean modificato = gestoreCatalogo.modificaLibro(libroNonEsistente);
         assertFalse(modificato);
         List<Libro> catalogo = testLibreriaDAO.caricaLibri();
@@ -121,7 +124,7 @@ class GestoreCatalogoTest {
 
     @Test
     void rimuoviLibro_libroNonEsistente_nonRimuove() {
-        Libro libroNonEsistente = new Libro("978-1234567890", "Non Existing Book", "Unknown", "Mystery", 2, Libro.Stato.LETTO);
+        Libro libroNonEsistente = new Libro("978-1234567890", "Non Existing Book", "Unknown", "Mystery", 2, Stato.LETTO);
         boolean rimosso = gestoreCatalogo.rimuoviLibro(libroNonEsistente);
         assertFalse(rimosso);
         List<Libro> catalogo = testLibreriaDAO.caricaLibri();
@@ -151,7 +154,7 @@ class GestoreCatalogoTest {
 
     @Test
     void filtraCatalogo_perGenere_filtraCorrettamente() {
-        Filtro filtroFantasy = libro -> libro.getGenere().equals("Fantasy");
+        Filtro filtroFantasy = libro -> getGenere().equals("Fantasy");
         List<Libro> filtrato = gestoreCatalogo.filtraCatalogo(filtroFantasy);
         assertEquals(1, filtrato.size());
         assertEquals("The Lord of the Rings", filtrato.get(0).getTitolo());
@@ -165,10 +168,10 @@ class GestoreCatalogoTest {
 
     @Test
     void salvaCatalogo_chiamaDAOCorrettamente() {
-        List<Libro> nuoviLibri = Arrays.asList(libro1, libro2, libro3);
+        gestoreCatalogo.aggiungiLibro(libro3);
         gestoreCatalogo.salvaCatalogo();
         List<Libro> catalogoSalvato = testLibreriaDAO.caricaLibri();
-        assertEquals(3, catalogoSalvato.size()); // Dovrebbe contenere lo stato dopo setUp
+        assertEquals(3, catalogoSalvato.size()); //Dovrebbe contenere lo stato dopo setUp
     }
 
     @Test

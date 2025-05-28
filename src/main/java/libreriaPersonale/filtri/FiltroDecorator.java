@@ -1,6 +1,6 @@
 package libreriaPersonale.filtri;
 
-import libreriaPersonale.Libro;
+import libreriaPersonale.modello.Libro;
 
 public abstract class FiltroDecorator implements Filtro {
     protected Filtro filtro;
