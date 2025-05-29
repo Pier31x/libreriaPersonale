@@ -12,6 +12,6 @@ public class FiltroAutore extends FiltroDecorator {
 
     @Override
     public boolean applicaFiltro(Libro libro) {
-        return !libro.getAutore().isEmpty() && filtro.applicaFiltro(libro) && libro.getAutore().contains(autore);
+        return libro.getAutore()!=null && filtro.applicaFiltro(libro) && libro.getAutore().toLowerCase().contains(autore.toLowerCase());
     }
 }

@@ -68,9 +68,9 @@ public class AggiungiLibroDialog extends JDialog {
             try {
                 Libro libro = new Libro(
                         isbn,
-                        titolo.isEmpty() ? "" : titolo,
-                        autore.isEmpty() ? "" : autore,
-                        genere.isEmpty() ? "" : genere,
+                        titolo.isEmpty() ? null : titolo,
+                        autore.isEmpty() ? null : autore,
+                        genere.isEmpty() ? null : genere,
                         valutazione,
                         stato
                 );

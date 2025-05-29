@@ -37,13 +37,12 @@ public class GestoreCatalogo implements GestoreCatalogoIF {
     }
 
     @Override
-    public List<Libro> ordinaCatalogo(EnumComparatori comparator) {
+    public List<Libro> ordinaCatalogo(Comparator<Libro> comparator) {
         List<Libro> catalogoOrdinato = new ArrayList<>(catalogo.getCatalogo());
         if (comparator == null) {
             return catalogoOrdinato;
         }
-        Comparator<Libro> libroComparator = Comparators.getComparator(comparator, catalogoOrdinato);
-        catalogoOrdinato.sort(libroComparator);
+        catalogoOrdinato.sort(comparator);
         return catalogoOrdinato;
     }
 

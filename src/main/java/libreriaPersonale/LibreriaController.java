@@ -11,21 +11,24 @@ import libreriaPersonale.modello.Stato;
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 
 public class LibreriaController {
-    private final GestoreCatalogo gestore;
+    private final GestoreCatalogoIF gestore;
     private final libreriaGUI gui;
     private List<Libro> catalogoOriginale;
     private List<Libro> catalogoDaMostrare;
 
-    public LibreriaController(GestoreCatalogo gestore, libreriaGUI gui) {
+    public LibreriaController(GestoreCatalogoIF gestore, libreriaGUI gui) {
         this.gestore = gestore;
         this.gui = gui;
         catalogoOriginale = gestore.caricaCatalogo();
-        catalogoDaMostrare = gestore.getCatalogo().getCatalogo();
+        catalogoDaMostrare = new ArrayList<>(catalogoOriginale.size());
+        for (Libro libro : catalogoOriginale)
+            catalogoDaMostrare.add(libro);
         aggiornaTabella();
 
         setUpMouseListener();
@@ -37,7 +40,7 @@ public class LibreriaController {
                     aggiornaTabella();
                 }
                 else{
-                    JOptionPane.showMessageDialog(gui.getMainPanel(), "Libro già presente!", "Error", JOptionPane.ERROR_MESSAGE);
+                    mostraErrore("Libro già esistente!");
                 }
             }).setVisible(true);
         });
@@ -52,14 +55,14 @@ public class LibreriaController {
 
     }//COSTRUTTORE
 
+
     private void ordinaCatalogo() {
         EnumComparatori comando =(EnumComparatori) gui.getCbOrder().getSelectedItem();
         Comparator<Libro> comp = Comparators.getComparator(comando, catalogoOriginale);
         if(gui.getCbInvertiOrdine().isSelected())
             comp = Comparators.inverti(comp);
 
-        System.out.println(comando);
-        catalogoDaMostrare.sort(comp);
+        catalogoDaMostrare = gestore.ordinaCatalogo(comp);
         aggiornaTabella();
     }
 
@@ -88,10 +91,10 @@ public class LibreriaController {
             try {
                 f = new FiltroValutazione(f, Integer.parseInt(valutazione));
             }catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(gui.getMainPanel(), "Valutazione non valida");
+                mostraErrore("Valutazione non valida");
             }
         }
-        if(!gui.getCbStatoLettura().getSelectedItem().toString().equals("NON_SPECIFICATO")){
+        if(!gui.getCbStatoLettura().getSelectedItem().toString().equals("NON SPECIFICATO")){
         Stato stato = (Stato) gui.getCbStatoLettura().getSelectedItem();
         f = new FiltroStato(f, stato);
         }
@@ -100,31 +103,6 @@ public class LibreriaController {
         aggiornaTabella();
 
     }
-/*
-    private void aggiungiLibro() {
-        try {
-            Libro l = new Libro(
-                    gui.getTfCodice().getText(),
-                    gui.getTfTitolo().getText(),
-                    gui.getTfAutore().getText(),
-                    gui.getTfGenere().getText(),
-                    Integer.parseInt(gui.getTfValutazione().getText()),
-                    Libro.Stato.valueOf(gui.getTfStatoLettura().getText().toUpperCase())
-            );
-
-            boolean successo = gestore.aggiungiLibro(l);
-            if (successo) {
-                JOptionPane.showMessageDialog(null, "Libro aggiunto al catalogo.");
-                catalogoDaMostrare.add(l);
-                aggiornaTabella();
-            } else {
-                JOptionPane.showMessageDialog(null, "Libro con lo stesso ISBN già presente.");
-            }
-
-        } catch (Exception ex) {
-            mostraErrore("Errore nei dati inseriti");
-        }
-    }*/
 
     private void salvaCatalogo() {
         gestore.salvaCatalogo();

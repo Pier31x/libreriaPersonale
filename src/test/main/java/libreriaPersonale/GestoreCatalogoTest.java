@@ -1,5 +1,6 @@
 package libreriaPersonale;
 
+import libreriaPersonale.comparatori.Comparators;
 import libreriaPersonale.comparatori.EnumComparatori;
 import libreriaPersonale.database.LibreriaDAO;
 import libreriaPersonale.filtri.Filtro;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,7 +36,7 @@ class GestoreCatalogoTest {
         @Override
         public void rimuoviLibro(String ISBN) {
             for(Libro libro : libri) {
-                if (getIsbn().equals(ISBN)) {
+                if (libro.getIsbn().equals(ISBN)) {
                     libri.remove(libro);
                     return;
                 }
@@ -44,7 +46,7 @@ class GestoreCatalogoTest {
         @Override
         public void modificaLibro(Libro libro) {
             for (int i = 0; i < libri.size(); i++) {
-                if (libri.get(i).getIsbn().equals(getIsbn())) {
+                if (libri.get(i).getIsbn().equals(libro.getIsbn())) {
                     libri.set(i, libro);
                     return;
                 }
@@ -66,9 +68,9 @@ class GestoreCatalogoTest {
     void setUp() {
         testLibreriaDAO = new TestLibreriaDAO();
 
-        libro1 = new Libro("978-0321765723", "J.R.R. Tolkien", "The Lord of the Rings", "Fantasy", 5, Stato.LETTO);
-        libro2 = new Libro("978-0743273565", "F. Scott Fitzgerald", "The Great Gatsby", "Classic", 4, Stato.IN_LETTURA);
-        libro3 = new Libro("978-0061120084", "Harper Lee", "To Kill a Mockingbird", "Classic", 5, Stato.DA_LEGGERE);
+        libro1 = new Libro("978-0321765723", "The Lord of the Rings", "J.R.R. Tolkien", "Fantasy", 5, Stato.LETTO);
+        libro2 = new Libro("978-0743273565", "The Great Gatsby", "F. Scott Fitzgerald", "Classic", 4, Stato.IN_LETTURA);
+        libro3 = new Libro("978-0061120084", "To Kill a Mockingbird", "Harper Lee", "Classic", 5, Stato.DA_LEGGERE);
 
         testLibreriaDAO.salvaCatalogo(new ArrayList<>(Arrays.asList(libro1, libro2)));
 
@@ -133,14 +135,14 @@ class GestoreCatalogoTest {
 
     @Test
     void ordinaCatalogo_perTitolo_ordinaCorrettamente() {
-        List<Libro> ordinato = gestoreCatalogo.ordinaCatalogo(EnumComparatori.TITOLO);
+        List<Libro> ordinato = gestoreCatalogo.ordinaCatalogo(Comparators.getComparator(EnumComparatori.TITOLO, null));
         assertEquals("The Great Gatsby", ordinato.get(0).getTitolo());
         assertEquals("The Lord of the Rings", ordinato.get(1).getTitolo());
     }
 
     @Test
     void ordinaCatalogo_perAutore_ordinaCorrettamente() {
-        List<Libro> ordinato = gestoreCatalogo.ordinaCatalogo(EnumComparatori.AUTORE);
+        List<Libro> ordinato = gestoreCatalogo.ordinaCatalogo(Comparators.getComparator(EnumComparatori.AUTORE, null));
         assertEquals("F. Scott Fitzgerald", ordinato.get(0).getAutore());
         assertEquals("J.R.R. Tolkien", ordinato.get(1).getAutore());
     }
@@ -154,7 +156,7 @@ class GestoreCatalogoTest {
 
     @Test
     void filtraCatalogo_perGenere_filtraCorrettamente() {
-        Filtro filtroFantasy = libro -> getGenere().equals("Fantasy");
+        Filtro filtroFantasy = libro -> libro.getGenere().equals("Fantasy");
         List<Libro> filtrato = gestoreCatalogo.filtraCatalogo(filtroFantasy);
         assertEquals(1, filtrato.size());
         assertEquals("The Lord of the Rings", filtrato.get(0).getTitolo());

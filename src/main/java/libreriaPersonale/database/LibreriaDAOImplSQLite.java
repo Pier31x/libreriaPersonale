@@ -19,8 +19,8 @@ public class LibreriaDAOImplSQLite implements LibreriaDAO {
             String sql = """
                 CREATE TABLE IF NOT EXISTS libri (
                     isbn TEXT PRIMARY KEY NOT NULL,
-                    titolo TEXT NOT NULL,
-                    autore TEXT NOT NULL,
+                    titolo TEXT,
+                    autore TEXT,
                     genere TEXT,
                     valutazione INTEGER,
                     statoLettura TEXT

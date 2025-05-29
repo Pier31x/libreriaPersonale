@@ -26,6 +26,7 @@ public class Comparators {
 
 
     //Metodo che data l'enum ritorna il comparatore
+    //ordineOriginale mi serve per tenere l'ordine di default
     public static Comparator<Libro> getComparator(EnumComparatori comparator, List<Libro> ordineOriginale) {
         return switch (comparator) {
             case TITOLO -> Comparators.perTitolo;

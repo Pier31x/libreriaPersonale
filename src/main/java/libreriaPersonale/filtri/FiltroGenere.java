@@ -13,6 +13,6 @@ public class FiltroGenere extends FiltroDecorator {
 
     @Override
     public boolean applicaFiltro(Libro libro) {
-        return !libro.getGenere().isEmpty() && filtro.applicaFiltro(libro) && libro.getGenere().contains(genere);
+        return libro.getGenere()!=null && filtro.applicaFiltro(libro) && libro.getGenere().toLowerCase().contains(genere.toLowerCase());
     }
 }

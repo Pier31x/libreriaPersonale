@@ -32,20 +32,14 @@ public class libreriaGUI {
         this.frame = frame;
     }
 
-    //TODO
     public libreriaGUI() {
-        // Creo un array o lista di oggetti da mettere nella combo:
-        // Prima la voce speciale "NON_SPECIFICATO" (può essere una stringa o un oggetto custom)
-        // poi tutti gli enum Stato.values()
-
         Object[] statiConDefault = new Object[Stato.values().length + 1];
-        statiConDefault[0] = "NON_SPECIFICATO";  // voce speciale non presente nell'enum
+        statiConDefault[0] = "NON SPECIFICATO"; //Serve se non voglio lo specificare stato
+        // di lettura su cui filtrare, altrimenti sarei costretto a sceglierne uno
         System.arraycopy(Stato.values(), 0, statiConDefault, 1, Stato.values().length);
 
-        // Setto il modello del JComboBox usando questa lista mista
         cbStatoLettura.setModel(new DefaultComboBoxModel<>(statiConDefault));
 
-        // Similmente per EnumComparatori se vuoi (se ti serve)
         cbOrder.setModel(new DefaultComboBoxModel<>(EnumComparatori.values()));
     }
 

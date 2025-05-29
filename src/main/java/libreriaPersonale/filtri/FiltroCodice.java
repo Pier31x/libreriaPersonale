@@ -12,6 +12,6 @@ public class FiltroCodice extends FiltroDecorator {
 
     @Override
     public boolean applicaFiltro(Libro libro) {
-        return !libro.getIsbn().isEmpty() && filtro.applicaFiltro(libro) && libro.getIsbn().equals(codice);
+        return libro.getIsbn()!=null && filtro.applicaFiltro(libro) && libro.getIsbn().contains(codice);
     }
 }
