@@ -41,6 +41,8 @@ public class libreriaGUI {
         cbStatoLettura.setModel(new DefaultComboBoxModel<>(statiConDefault));
 
         cbOrder.setModel(new DefaultComboBoxModel<>(EnumComparatori.values()));
+        catalogo.getTableHeader().setReorderingAllowed(false);
+
     }
 
     public JTable getCatalogo() {
