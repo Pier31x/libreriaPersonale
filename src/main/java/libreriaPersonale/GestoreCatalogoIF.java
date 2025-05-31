@@ -9,11 +9,11 @@ import java.util.List;
 
 
 public interface GestoreCatalogoIF {
-    public boolean aggiungiLibro(Libro l);
-    public boolean modificaLibro(Libro l);
-    public boolean rimuoviLibro(Libro l);
-    public List<Libro> ordinaCatalogo(Comparator<Libro> comparator);
-    public List<Libro> filtraCatalogo(Filtro filtro);
-    public void salvaCatalogo();
+    boolean aggiungiLibro(Libro l);
+    boolean modificaLibro(Libro l);
+    boolean rimuoviLibro(Libro l);
+    List<Libro> ordinaCatalogo(Comparator<Libro> comparator);
+    List<Libro> filtraCatalogo(Filtro filtro);
+    void salvaCatalogo();
     List<Libro> caricaCatalogo();
 }

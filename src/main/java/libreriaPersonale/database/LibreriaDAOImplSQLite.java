@@ -166,4 +166,19 @@ public class LibreriaDAOImplSQLite implements LibreriaDAO {
             }
         }
     }
+
+    @Override
+    public void salvaCatalogo(List<Libro> daAggiungere, List<Libro> daModificare, List<Libro> daRimuovere) {
+        for(Libro libro : daAggiungere) {
+            aggiungiLibro(libro);
+        }
+        for(Libro libro : daModificare) {
+            modificaLibro(libro);
+        }
+        for(Libro libro : daRimuovere) {
+            rimuoviLibro(libro.getIsbn());
+        }
+    }
+
+
 }

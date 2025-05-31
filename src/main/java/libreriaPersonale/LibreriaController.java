@@ -173,7 +173,7 @@ public class LibreriaController {
                     }
                 }
 
-                gestore.modificaLibro(libro); // salva nel database
+                gestore.modificaLibro(libro);
             });
     }
 

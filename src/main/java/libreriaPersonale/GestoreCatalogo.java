@@ -7,13 +7,14 @@ import libreriaPersonale.filtri.Filtro;
 import libreriaPersonale.modello.Catalogo;
 import libreriaPersonale.modello.Libro;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class GestoreCatalogo implements GestoreCatalogoIF {
     private Catalogo catalogo;
     private LibreriaDAO libreriaDAO;
+    private LinkedList<Libro> libriDaAggiungere = new LinkedList<>();
+    private LinkedList<Libro> libriDaModificare = new LinkedList<>();
+    private LinkedList<Libro> libriDaRimuovere = new LinkedList<>();
 
     public GestoreCatalogo(LibreriaDAO libreriaDAO) {
         this.libreriaDAO = libreriaDAO;
@@ -23,17 +24,60 @@ public class GestoreCatalogo implements GestoreCatalogoIF {
 
     @Override
     public boolean aggiungiLibro(Libro l) {
-        return catalogo.aggiungiLibro(l);
+        if(catalogo.aggiungiLibro(l)){
+            aggiornaLibriDaAggiungere(l);
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public boolean modificaLibro(Libro nuovoLibro) {
-        return catalogo.modificaLibro(nuovoLibro);
+    public boolean modificaLibro(Libro l) {
+        if(catalogo.modificaLibro(l)){
+            aggiornaLibriDaModificare(l);
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean rimuoviLibro(Libro l) {
-        return catalogo.rimuoviLibro(l);
+        if(catalogo.rimuoviLibro(l)){
+            aggiornaLibriDaRimuovere(l);
+            return true;
+        }
+        return false;
+    }
+
+    void aggiornaLibriDaAggiungere(Libro l) {
+        if(libriDaRimuovere.remove(l)) {
+            libriDaModificare.add(l);
+        }
+        else
+            libriDaAggiungere.add(l);
+    }
+
+    void aggiornaLibriDaModificare(Libro l) {
+        for(Libro libro : libriDaAggiungere){
+            if(libro.equals(l)){
+                libro.setLibro(l);
+                return;
+            }
+        }
+        for(Libro libro : libriDaModificare){
+            if(libro.equals(l)){
+                libro.setLibro(l);
+                return;
+            }
+        }
+        libriDaModificare.add(l);
+    }
+
+    void aggiornaLibriDaRimuovere(Libro l) {
+        if(libriDaAggiungere.remove(l))
+            return;
+        libriDaModificare.remove(l);
+        libriDaRimuovere.add(l);
     }
 
     @Override
@@ -63,7 +107,7 @@ public class GestoreCatalogo implements GestoreCatalogoIF {
 
     @Override
     public void salvaCatalogo() {
-        libreriaDAO.salvaCatalogo(catalogo.getCatalogo());
+        libreriaDAO.salvaCatalogo(libriDaAggiungere, libriDaModificare, libriDaRimuovere);
     }
 
     @Override

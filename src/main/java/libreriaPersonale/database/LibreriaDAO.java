@@ -6,11 +6,12 @@ import java.util.List;
 
 
 public interface LibreriaDAO {
-    public void aggiungiLibro(Libro libro);
-    public void rimuoviLibro(String ISBN);
-    public void modificaLibro(Libro libro);
+    void aggiungiLibro(Libro libro);
+    void rimuoviLibro(String ISBN);
+    void modificaLibro(Libro libro);
     
-    public List<Libro> caricaLibri();
-    public void salvaCatalogo(List<Libro> libri);
+    List<Libro> caricaLibri();
+    void salvaCatalogo(List<Libro> libri);
+    void salvaCatalogo(List<Libro> daAggiungere, List<Libro> daModificare, List<Libro> daRimuovere);
 }
 
