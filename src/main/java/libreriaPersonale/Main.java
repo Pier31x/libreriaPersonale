@@ -17,14 +17,14 @@ public class Main {
             frame.setLocationRelativeTo(null); // Centro schermo
             frame.setVisible(true);
 
-            // DAO + Gestore
+            //DAO + Gestore
             LibreriaDAO dao = new LibreriaDAOImplSQLite("jdbc:sqlite:libreria.db");
             GestoreCatalogo gestore = new GestoreCatalogo(dao);
 
-            // Controller
+            //Controller
             LibreriaController controller = new LibreriaController(gestore, gui);
 
-            // Salvataggio a chiusura
+            //Salvataggio a chiusura
             frame.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
                 public void windowClosing(java.awt.event.WindowEvent e) {

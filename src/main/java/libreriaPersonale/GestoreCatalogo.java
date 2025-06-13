@@ -95,7 +95,7 @@ public class GestoreCatalogo implements GestoreCatalogoIF {
         List<Libro> catalogoCompleto = new ArrayList<>(catalogo.getCatalogo());
         List<Libro> catalogoFiltrato = new ArrayList<>();
         if (filtro == null) {
-            return new ArrayList<>(catalogoCompleto);
+            return catalogoCompleto;
         }
         for (Libro libro : catalogoCompleto) {
             if (filtro.applicaFiltro(libro)) {

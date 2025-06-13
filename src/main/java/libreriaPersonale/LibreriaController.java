@@ -74,7 +74,6 @@ public class LibreriaController {
             f = new FiltroCodice(f, codiceISBN);
 
         String titolo = gui.getTfTitolo().getText().trim();
-        System.out.println(titolo);
         if(!titolo.isEmpty())
             f = new FiltroTitolo(f, titolo);
 

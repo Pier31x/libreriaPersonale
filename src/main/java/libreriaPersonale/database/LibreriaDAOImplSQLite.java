@@ -110,7 +110,7 @@ public class LibreriaDAOImplSQLite implements LibreriaDAO {
                         rs.getString("autore"),
                         rs.getString("genere"),
                         rs.getInt("valutazione"),
-                        Stato.valueOf(rs.getString("statoLettura"))  // FIXATO
+                        Stato.valueOf(rs.getString("statoLettura"))
                 );
                 libri.add(libro);
             }
@@ -124,6 +124,7 @@ public class LibreriaDAOImplSQLite implements LibreriaDAO {
 
     @Override
     public void salvaCatalogo(List<Libro> libri) {
+        //Sovrascrivo l'intero db
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(DB_URL);
